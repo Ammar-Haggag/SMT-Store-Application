@@ -4,6 +4,9 @@ import tkinter as tk
 from tkinter import messagebox, scrolledtext
 from PIL import Image, ImageTk  # Import PIL for image handling
 
+def show_message():
+    messagebox.showinfo("Info", "Developed by Eng. Ammar Haggag")
+
 def search_files(directory, pattern):
     results = []
     for root, _, files in os.walk(directory):
@@ -13,7 +16,7 @@ def search_files(directory, pattern):
                 with open(file_path, 'r', encoding='utf-8-sig') as file:
                     for line_number, line in enumerate(file, start=1):
                         if re.search(pattern, line):
-                            results.append(f'\n Found in file: {file_path} --> line {line_number} \n Part Number : {line.strip()}\n')
+                            results.append(f'\n Found in file: {file_path} --> line {line_number} \n Part Number  : {line.strip()}\n')
             except UnicodeDecodeError:
                 print(f'Error decoding file: {file_path}. Attempting fallback encoding.')
 
@@ -21,7 +24,7 @@ def search_files(directory, pattern):
                     with open(file_path, 'r', encoding='utf-8', errors='ignore') as file:
                         for line_number, line in enumerate(file, start=1):
                             if re.search(pattern, line):
-                                results.append(f' Found in file: {file_path} --> line {line_number} \n Part Number : {line.strip()}\n')
+                                results.append(f' Found in file: {file_path} --> line {line_number} \n Part Number  : {line.strip()}\n')
                                 
                 except (UnicodeDecodeError, OSError):
                     print(f'Error reading file: {file_path}')
@@ -59,7 +62,7 @@ def create_gui():
     window.title('Amer Group SMT Store')
 
     # Define the directory path
-    directory_path = r'D:\SMT\projects\DATA BASE'
+    directory_path = r'D:\SMT\projects\DATA BASE' # replace (path) with your data base location
 
     # Search Label and Entry
     search_label = tk.Label(window, text='Enter text to search:')
@@ -81,13 +84,21 @@ def create_gui():
     result_text.config(state=tk.DISABLED)
 
      # Name Label
-    name_label = tk.Label(window, text='By : Eng. Ammar Haggag', font=('Helvetica', 10, 'bold'))
-    name_label.pack(pady=10)
-    name_label.place(relx=1.0, rely=1.0, anchor='se', x=-10, y=-10)
+    #name_label = tk.Label(window, text='By : Eng. Ammar Haggag', font=('Helvetica', 10, 'bold'))
+    #name_label.pack(pady=10)
+    #name_label.place(relx=1.0, rely=1.0, anchor='se', x=-10, y=-10)
+
+    # info button
+    button = tk.Button(window, text="Info", command=show_message)
+    button.pack(pady=20) 
+    button.place(x=10, y=10) 
+    
+    
+
 
     # Load and display image
     try:
-        img = Image.open(r'D:\SMT\projects\DATA BASE\logo\logo.png') # Replace 'logo.png' with your image file
+        img = Image.open(r'D:\SMT\projects\DATA BASE\logo\logo.png') # Replace (Path) with your image file location
         img = img.resize((80, 80))  # Resize the image as needed
         img = ImageTk.PhotoImage(img)
         img_label = tk.Label(window, image=img)
