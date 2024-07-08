@@ -191,7 +191,7 @@ def create_gui():
     tab2 = ttk.Frame(tab_control)
     tab_control.add(tab2, text='Workers')
 
-    names = ['Mohamed Ibrahim', 'Hossam Gamal ', 'Mohamed Shokry', 'Moamen Saber', 'Ahmed Hassan', 'Ahmed Ramdan', 'Ayman Shokry', 'Mohamed Abdelmoam', 'Youssef Elsayed']
+    names = ['Mohamed Ibrahim', 'Hossam Gamal ', 'Mohamed Shokry', 'Moamen Saber', 'Ahmed Hassan', 'Ahmed Ramdan', 'Ayman Shokry', 'Mohamed Abdelmoneam', 'Youssef Elsayed']
     statuses = ['Attend','Absence','Vacation', 'Casual vacation' ,'Vacation without salary']
     selected_statuses = {name: tk.StringVar() for name in names}
 
