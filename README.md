@@ -1,5 +1,5 @@
 # SMT-Store-Application
-A Simple application using python to make search esay in SMT excel sheets
+A Simple application using python to make database for a industry of electonics
 
 **Features**
 
