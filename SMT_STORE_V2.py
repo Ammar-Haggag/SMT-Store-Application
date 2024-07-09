@@ -64,7 +64,7 @@ def open_excel_AOI(): # function for open AOI Excel file
         print(f"Error opening the Excel file: {e}")
 
 
-def check_password(): # Password function
+def check_password(evevnt=None): # Password function
     if password_entry.get() == "SMT123":  # change your password from here
         password_frame.pack_forget()
         main_frame.pack(expand=1, fill='both')
@@ -103,7 +103,7 @@ def search_files(directory, pattern): # search funtion in files
     return results
 
 
-def search_button_click(): #when i click search button in tab 1
+def search_button_click(event=None): #when i click search button in tab 1
     global directory_path, result_text
     global password_entry, main_frame, password_frame
 
@@ -129,6 +129,7 @@ def clear_results(): # function to clear result of search
     result_text.config(state=tk.DISABLED)
 
 
+
 def create_gui(): #variables
     global directory_path, vacation_directory_path, search_entry, result_text, file_name_entry, file_content_text
     global password_entry, main_frame, password_frame
@@ -136,18 +137,22 @@ def create_gui(): #variables
     window = tk.Tk()
     window.title('Amer Group SMT Store')
 
+
     # PASSWORD FRAME
     password_frame = tk.Frame(window)
     password_frame.pack(pady=20)
 
     password_label = tk.Label(password_frame, text="Enter Password:")
-    password_label.pack(side=tk.LEFT)
+    password_label.grid(row=0, column=0, padx=5, pady=5)
+
+    
 
     password_entry = tk.Entry(password_frame, show='*')
-    password_entry.pack(side=tk.LEFT)
+    password_entry.grid(row=1, column=0, padx=5, pady=5)
+    password_entry.bind("<Return>", check_password)  # Bind Enter key to search_files function
 
     password_button = tk.Button(password_frame, text="Submit", command=check_password,bg='GRAY',fg='WHITE')
-    password_button.pack(side=tk.LEFT)
+    password_button.grid(row=2, column=0, padx=5, pady=5)
 
     main_frame = tk.Frame(window)
 
@@ -168,6 +173,7 @@ def create_gui(): #variables
     search_label.pack(pady=10)
     search_entry = tk.Entry(tab1, width=50)
     search_entry.pack(pady=5)
+    search_entry.bind("<Return>", search_button_click)  # Bind Enter key to search_files function
 
     # Search Button
     search_button = tk.Button(tab1, text='Search', command=search_button_click,bg='LIGHTBLUE',font=("Helvetica", 10, "bold"))
@@ -236,7 +242,7 @@ def create_gui(): #variables
         def create_widgets(self):
             self.labels = []
             for i, worker in enumerate(self.workers):
-                label = tk.Label(self.parent, text=worker['name'])
+                label = tk.Label(self.parent, text=worker['name'],font=("Helvetica", 12))
                 label.grid(row=i + 1, column=2, padx=10, pady=5)
                 self.labels.append(label)
 
@@ -246,7 +252,7 @@ def create_gui(): #variables
                 status_menu.config(bg="SKYBLUE", fg="black")
                 status_menu['menu'].config(bg="black",fg="white")
 
-                credits_label = tk.Label(self.parent, text=f"Annual: {worker['annual']}, Casual: {worker['casual']}")
+                credits_label = tk.Label(self.parent, text=f"Annual: {worker['annual']}, Casual: {worker['casual']}",font=("Helvetica", 10))
                 credits_label.grid(row=i + 1, column=4, padx=10, pady=5)
                 self.labels.append(credits_label)
 
@@ -328,7 +334,7 @@ def create_gui(): #variables
         return results
 
     # Function to handle search button click
-    def search_button_click_name():
+    def search_button_click_name(event=None):
         search_string = Entry_Text.get()
         if not search_string:
             messagebox.showwarning("Warning", "Please enter a search string.")
@@ -351,18 +357,22 @@ def create_gui(): #variables
 
     Entry_Text = tk.Entry(tab2, width=30)
     Entry_Text.grid(row=12, column=3)
+    Entry_Text.bind("<Return>", search_button_click_name)
 
     button_search_name = tk.Button(tab2, text="Search", command=search_button_click_name,bg='white',fg='black',font=("Helvetica", 8, "bold"))
     button_search_name.grid(row=12, column=4)
 
     text_results = Text(tab2, wrap=tk.WORD)
     text_results.grid(row=13, column=3, columnspan=1, sticky='nsew')
+    
+    
+
 
     scrollbar_results = Scrollbar(tab2, command=text_results.yview)
     scrollbar_results.grid(row=13, column=5, sticky='ns')
-
+    
     text_results.config(yscrollcommand=scrollbar_results.set)
-
+    
     # Make sure the grid configuration allows resizing
     tab2.grid_rowconfigure(13, weight=1)
     tab2.grid_columnconfigure(3, weight=1)
