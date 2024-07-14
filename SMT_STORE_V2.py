@@ -1,12 +1,14 @@
 import tkinter as tk
 from tkinter import Scrollbar, Text, ttk, messagebox, scrolledtext ,Listbox
+from tkinter.tix import WINDOW
 from PIL import Image, ImageTk
 import os
 import re
 import pandas as pd
 from tkinter import filedialog
 from datetime import datetime
-from tkinter import font as tkfont
+from tkinter import font as tkfont 
+
 
 
 def open_excel_MPM(): # function for open MPM Excel file
@@ -141,20 +143,42 @@ def create_gui(): #variables
     # PASSWORD FRAME
     password_frame = tk.Frame(window)
     password_frame.pack(pady=20)
+    
 
-    password_label = tk.Label(password_frame, text="Enter Password:")
-    password_label.grid(row=0, column=0, padx=5, pady=5)
+    welcom_label = tk.Label(password_frame, text="Welcom to :")
+    welcom_label.grid(row=0, column=0, padx=5, pady=5)
+
+    name_label = tk.Label(password_frame, text="SMT Store Application",font=("Helvetica", 16, "bold"))
+    name_label.grid(row=1, column=0, padx=5, pady=5)
+
+
+    password_label = tk.Label(password_frame, text="Enter Password :")
+    password_label.grid(row=3, column=0, padx=5, pady=5)
+
+    password_entry = tk.Entry(password_frame, show='*')
+    password_entry.grid(row=4, column=0, padx=5, pady=5)
+    password_entry.bind("<Return>", check_password)  # Bind Enter key to check_password function
+
+    password_button = tk.Button(password_frame, text="Submit", command=check_password, bg='LIGHTBLUE', fg='BLACK')
+    password_button.grid(row=5, column=0, padx=5, pady=5)
+
+    try:
+        img = Image.open(r'D:\SMT\projects\DATA BASE\logo\logo.png')  # Replace with your image file location
+        img = img.resize((100, 100))  # Resize the image as needed
+        img = ImageTk.PhotoImage(img)
+        img_label = tk.Label(password_frame, image=img)
+        img_label.image = img  # Keep a reference to the image object
+        img_label.grid(row=2, column=0, padx=5, pady=5)
+        #img_label.pack(pady=10)
+    except IOError as e:
+        print(f'Error loading image: {e}')  
+
+
+    main_frame = tk.Frame(window)
 
     
 
-    password_entry = tk.Entry(password_frame, show='*')
-    password_entry.grid(row=1, column=0, padx=5, pady=5)
-    password_entry.bind("<Return>", check_password)  # Bind Enter key to search_files function
-
-    password_button = tk.Button(password_frame, text="Submit", command=check_password,bg='GRAY',fg='WHITE')
-    password_button.grid(row=2, column=0, padx=5, pady=5)
-
-    main_frame = tk.Frame(window)
+    
 
 #------------------------------------------------------------------------------------------------
 
@@ -195,7 +219,7 @@ def create_gui(): #variables
     # Load and display image (optional)
     try:
         img = Image.open(r'D:\SMT\projects\DATA BASE\logo\logo.png')  # Replace with your image file location
-        img = img.resize((80, 80))  # Resize the image as needed
+        img = img.resize((100, 100))  # Resize the image as needed
         img = ImageTk.PhotoImage(img)
         img_label = tk.Label(tab1, image=img)
         img_label.image = img  # Keep a reference to the image object
@@ -244,13 +268,15 @@ def create_gui(): #variables
             for i, worker in enumerate(self.workers):
                 label = tk.Label(self.parent, text=worker['name'],font=("Helvetica", 12))
                 label.grid(row=i + 1, column=2, padx=10, pady=5)
+
+                
                 self.labels.append(label)
 
                 status_menu = tk.OptionMenu(self.parent, worker['status'], "Attend", "Absence",
                                             "Annual Vacation", "Casual Vacation", "Vacation without salary","Health","Half day")
                 status_menu.grid(row=i + 1, column=3, padx=10, pady=5)
                 status_menu.config(bg="SKYBLUE", fg="black")
-                status_menu['menu'].config(bg="black",fg="white")
+                status_menu['menu'].config(bg="SKYBLUE",fg="BLACK")
 
                 credits_label = tk.Label(self.parent, text=f"Annual: {worker['annual']}, Casual: {worker['casual']}",font=("Helvetica", 10))
                 credits_label.grid(row=i + 1, column=4, padx=10, pady=5)
@@ -259,7 +285,7 @@ def create_gui(): #variables
             self.filename_entry = tk.Entry(self.parent)
             self.filename_entry.grid(row=len(self.workers) + 1, column=3, padx=30, pady=2)
 
-            label_save = tk.Label(tab2, text="Enter Date :")
+            label_save = tk.Label(tab2, text="Enter Date :",font=("BOLD",10))
             label_save.grid(row=len(self.workers) + 1, column=2)
 
             save_button = tk.Button(self.parent, text="Save Data", command=self.save_data,bg='green',fg='white',font=("Helvetica", 10, "bold"))
@@ -352,7 +378,7 @@ def create_gui(): #variables
 
 
 
-    label_search_name = tk.Label(tab2, text="Enter search Name:")
+    label_search_name = tk.Label(tab2, text="Enter search Name :",font=("BOLD",10))
     label_search_name.grid(row=12, column=2)
 
     Entry_Text = tk.Entry(tab2, width=30)
